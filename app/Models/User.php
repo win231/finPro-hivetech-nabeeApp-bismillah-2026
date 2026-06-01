@@ -7,11 +7,12 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -45,5 +46,17 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // User punya satu karakter lebah
+    public function character()
+    {
+        return $this->hasOne(Character::class);
+    }
+
+    // User bisa punya banyak celengan (Honey Jar)
+    public function honeyJars()
+    {
+        return $this->hasMany(HoneyJar::class);
     }
 }
